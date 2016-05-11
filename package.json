@@ -4,21 +4,27 @@
   "description": "util tools for immutable js",
   "main": "./lib/index.js",
   "scripts": {
-    "test": "mocha --compilers js:babel-register --recursive ./__TEST__/test.js"
+    "build:lib": "babel src --out-dir lib",
+    "test": "mocha --compilers js:babel-register --recursive ./__TEST__/test.js",
+    "test:watch": "npm test -- --watch"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/madeinfree/immutable-js-tools.git"
   },
+  "files": [
+    "lib",
+    "src"
+  ],
   "keywords": [
     "immutable"
   ],
-  "author": "Whien_Liou",
-  "license": "ISC",
+  "author": "Whien_Liou <www.facebook.com/haowei.liou> (http://github.com/madeinfree)",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/madeinfree/immutable-js-tools/issues"
   },
-  "homepage": "https://github.com/madeinfree/immutable-js-tools#readme",
+  "homepage": "https://github.com/madeinfree/immutable-js-tools",
   "dependencies": {
     "immutable": "^3.8.1"
   },
