@@ -3,7 +3,8 @@
 ## Installation
 **Test Version**
 
-```
+~~DO NOT PUBLISH NOW~~
+```bash
 npm install --save immutable-js-tools
 ```
 
