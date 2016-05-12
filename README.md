@@ -61,25 +61,32 @@ console.log(_D.getSelected()); // List [ "foo", false ]
 [Immutable.js document](https://facebook.github.io/immutable-js/docs/)
 
 ## API
+
 ### - Immutable.Map
   * setEmptyMap(cursor)
   * mergeInMap(cursor, data)
+
 ### - Immutable.List
   * addList(cursor, value)
   * removeList(cursor, index)
   * clearList(cursor)
+
 ### - Immutable.Set
   * clearSet(cursor)
+
 ### - little helper
   * reverse(cursor)
+
 ### - basic getter & setter
   * getIn(cursor)
   * setIn(cursor, data)
   * hasIn(cursor)
   * getJS(cursor)
+
 ### - basic validation: static method
   * isMap
   * isList
+  
 ### - auto bind Functions of Sugar method helper
 ```javascript
 const _D = new ImUtil(Im.fromJS(obj));
