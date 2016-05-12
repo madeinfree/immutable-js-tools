@@ -34,11 +34,14 @@ export default class ImUtil {
    * new List()
    */
   addList = (cursor, value) => {
-    //if cursor like ['items', 'item']
-    if (typeof cursor === 'object') {
+    /*
+      cursor type is Array
+      cursor like ['items', 'item']
+    */
+    if (typeof cursor === 'object' && cursor.length !== undefined) {
       this[_O] = this[_O].setIn(cursor, this[_O].getIn(cursor).push(value));
     }
-    //if cursor just string
+    //only string
     if (typeof cursor === 'string') {
       value = cursor;
       this[_O] = this[_O].push(value);
@@ -48,6 +51,7 @@ export default class ImUtil {
       value = cursor;
       this[_O] = this[_O].push(value);
     }
+
     this.changeImmutable();
     return this[_O];
   }
@@ -74,12 +78,18 @@ export default class ImUtil {
   }
 
   reverse = (cursor) => {
-    if (this[_O]._isMap()) {
-      this[_O] = this[_O].setIn(!this[_O].getIn(cursor));
-    }
-    if (this[_O]._isList()) {
+    if (this[_O]._isMap && typeof cursor === 'object' && cursor.length !== undefined) {
       this[_O] = this[_O].setIn(cursor, !this[_O].getIn(cursor));
     }
+
+    if (this[_O]._isMap && typeof cursor === 'object' && cursor.length === undefined) {
+      this[_O] = this[_O].setIn(!this[_O].getIn(cursor));
+    }
+
+    if (this[_O]._isList) {
+      this[_O] = this[_O].setIn(cursor, !this[_O].getIn(cursor));
+    }
+
     this.changeImmutable();
     return this[_O];
   }

@@ -6,6 +6,7 @@
   "scripts": {
     "build:lib": "babel src --out-dir lib",
     "test": "mocha --compilers js:babel-register --recursive ./__TEST__/test.js",
+    "test:cmp": "mocha --watch --compilers js:babel-register --recursive ./__TEST__/component-test.js",
     "test:watch": "npm test -- --watch"
   },
   "repository": {
