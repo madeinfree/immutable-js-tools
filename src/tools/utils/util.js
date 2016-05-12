@@ -34,7 +34,20 @@ export default class ImUtil {
    * new List()
    */
   addList = (cursor, value) => {
-    this[_O] = this[_O].setIn(cursor, this[_O].getIn(cursor).push(value));
+    //if cursor like ['items', 'item']
+    if (typeof cursor === 'object') {
+      this[_O] = this[_O].setIn(cursor, this[_O].getIn(cursor).push(value));
+    }
+    //if cursor just string
+    if (typeof cursor === 'string') {
+      value = cursor;
+      this[_O] = this[_O].push(value);
+    }
+    //if push list and bind some method
+    if (typeof cursor === 'boolean') {
+      value = cursor;
+      this[_O] = this[_O].push(value);
+    }
     this.changeImmutable();
     return this[_O];
   }
@@ -60,8 +73,13 @@ export default class ImUtil {
    return this[_O];
   }
 
-  reverse = (obj, cursor) => {
-    this[_O] = this[_O].setIn(!this[_O].getIn(cursor));
+  reverse = (cursor) => {
+    if (this[_O]._isMap()) {
+      this[_O] = this[_O].setIn(!this[_O].getIn(cursor));
+    }
+    if (this[_O]._isList()) {
+      this[_O] = this[_O].setIn(cursor, !this[_O].getIn(cursor));
+    }
     this.changeImmutable();
     return this[_O];
   }
@@ -91,10 +109,29 @@ export default class ImUtil {
    * auto bind method
    */
   autoBindMethod = () => {
-    this[_O].mapKeys((o) => {
-      const autoGetMethodString = 'get'+o.toString().charAt(0).toUpperCase()+o.slice(1);
-      this[autoGetMethodString] = () => this[_O].getIn([o]);
-    })
+    this[_O]['_isMap'] = () => {
+      return Im.Map.isMap(this[_O]);
+    }
+    this[_O]['_isList'] = () => {
+      return Im.List.isList(this[_O]);
+    }
+    if(this[_O]._isMap()) {
+      this[_O].mapKeys((o) => {
+        const autoGetMethodString = 'get'+o.toString().charAt(0).toUpperCase()+o.slice(1);
+        this[autoGetMethodString] = () => this[_O].getIn([o]);
+      })
+    }
+  }
+
+  /*
+   * check immutable type
+   */
+  get isMap() {
+    return Im.Map.isMap(this[_O]);
+  }
+
+  get isList() {
+    return Im.List.isList(this[_O]);
   }
 
   /*
