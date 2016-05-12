@@ -76,18 +76,15 @@ export default class ImUtil {
   }
 
   getIn = (cursor) => {
-    this[_O] = this[_O].getIn(cursor);
-    return this[_O];
+    return this[_O].getIn(cursor);
   }
 
   hasIn = (cursor) => {
-    this[_O] = this[_O].hasIn(cursor);
-    return this[_O];
+    return this[_O].hasIn(cursor);
   }
 
   getJS = (cursor) => {
-    this[_O] = this[_O].getIn(cursor).toJS();
-    return this[_O];
+    return this[_O].getIn(cursor).toJS();
   }
 
   /*
