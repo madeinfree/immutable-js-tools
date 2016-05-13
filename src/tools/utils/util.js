@@ -68,7 +68,7 @@ export default class ImUtil {
 
   clearList = (cursor) => {
     const newState = this._getState.setIn(cursor, new Im.List());
-    this.changeImmutable(newState);
+    return this.changeImmutable(newState);
   }
 
   /*
@@ -76,7 +76,7 @@ export default class ImUtil {
    */
   clearSet = (cursor) => {
    const newState = this._getState.setIn(cursor, new Im.Set());
-   this.changeImmutable(newState);
+   return this.changeImmutable(newState);
   }
 
   reverse = (cursor) => {
