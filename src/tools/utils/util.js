@@ -4,30 +4,35 @@ const _O = Symbol();
 
 export default class ImUtil {
   /*
+   * get return self
+   */
+  get _getState() {
+    return this[_O];
+  }
+  /*
    * bind _Data
    */
    constructor(immutable) {
      this[_O] = immutable;
-     this.changeImmutable();
+     const newState = this[_O];
+     this.changeImmutable(newState);
    }
 
-   changeImmutable() {
-     this.autoBindMethod();
+   changeImmutable(state) {
+     return this.autoBindMethod(state);
    }
 
   /*
    * new Map()
    */
    setEmptyMap = (cursor) => {
-     this[_O] = this[_O].setIn(cursor, new Im.Map());
-     this.changeImmutable();
-     return this[_O];
+     const newState = this._getState.setIn(cursor, new Im.Map());
+     return this.changeImmutable(newState);
    }
 
    mergeInMap = (cursor, data) => {
-     this[_O] = this[_O].setIn(cursor, this[_O].getIn(cursor).merge(data));
-     this.changeImmutable();
-     return this[_O];
+     const newState = this._getState.setIn(cursor, this._getState.getIn(cursor).merge(data));
+     return this.changeImmutable(newState);
    }
 
   /*
@@ -38,99 +43,99 @@ export default class ImUtil {
       cursor type is Array
       cursor like ['items', 'item']
     */
+    let newState;
     if (typeof cursor === 'object' && cursor.length !== undefined) {
-      this[_O] = this[_O].setIn(cursor, this[_O].getIn(cursor).push(value));
+      newState = this._getState.setIn(cursor, this._getState.getIn(cursor).push(value));
     }
     //only string
     if (typeof cursor === 'string') {
       value = cursor;
-      this[_O] = this[_O].push(value);
+      newState = this._getState.push(value);
     }
     //if push list and bind some method
     if (typeof cursor === 'boolean') {
       value = cursor;
-      this[_O] = this[_O].push(value);
+      newState = this._getState.push(value);
     }
 
-    this.changeImmutable();
-    return this[_O];
+    return this.changeImmutable(newState);
   }
 
   removeList = (cursor, index) => {
-    this[_O] = this[_O].setIn(cursor, this[_O].getIn(cursor).remove(index));
-    this.changeImmutable();
-    return this[_O];
+    const newState = this._getState.setIn(cursor, this._getState.getIn(cursor).remove(index));
+    return this.changeImmutable(newState);
   }
 
   clearList = (cursor) => {
-    this[_O] = this[_O].setIn(cursor, new Im.List());
-    this.changeImmutable();
-    return this[_O];
+    const newState = this._getState.setIn(cursor, new Im.List());
+    this.changeImmutable(newState);
   }
 
   /*
    * new Set()
    */
   clearSet = (cursor) => {
-   this[_O] = this[_O].setIn(cursor, new Im.Set());
-   this.changeImmutable();
-   return this[_O];
+   const newState = this._getState.setIn(cursor, new Im.Set());
+   this.changeImmutable(newState);
   }
 
   reverse = (cursor) => {
-    if (this[_O]._isMap && typeof cursor === 'object' && cursor.length !== undefined) {
-      this[_O] = this[_O].setIn(cursor, !this[_O].getIn(cursor));
+    let newState;
+
+    if (this._getState._isMap() && typeof cursor === 'object' && cursor.length !== undefined) {
+      newState = this._getState.setIn(cursor, !this._getState.getIn(cursor));
     }
 
-    if (this[_O]._isMap && typeof cursor === 'object' && cursor.length === undefined) {
-      this[_O] = this[_O].setIn(!this[_O].getIn(cursor));
+    if (this._getState._isMap() && typeof cursor === 'object' && cursor.length === undefined) {
+      newState = this._getState.setIn(!this._getState.getIn(cursor));
     }
 
-    if (this[_O]._isList) {
-      this[_O] = this[_O].setIn(cursor, !this[_O].getIn(cursor));
+    if (this._getState._isList()) {
+      newState = this._getState.setIn(cursor, !this._getState.getIn(cursor));
     }
 
-    this.changeImmutable();
-    return this[_O];
+    return this.changeImmutable(newState);
   }
 
   /*
    * basic method
    */
   setIn = (cursor, data) => {
-    this[_O] = this[_O].setIn(cursor, data);
-    this.changeImmutable();
-    return this[_O];
+    const newState = this._getState.setIn(cursor, data);
+    return this.changeImmutable(newState);
   }
 
   getIn = (cursor) => {
-    return this[_O].getIn(cursor);
+    return this._getState.getIn(cursor);
   }
 
   hasIn = (cursor) => {
-    return this[_O].hasIn(cursor);
+    return this._getState.hasIn(cursor);
   }
 
   getJS = (cursor) => {
-    return this[_O].getIn(cursor).toJS();
+    return this._getState.getIn(cursor).toJS();
   }
 
   /*
    * auto bind method
    */
-  autoBindMethod = () => {
+  autoBindMethod = (state) => {
+    this[_O] = state;
     this[_O]['_isMap'] = () => {
-      return Im.Map.isMap(this[_O]);
+      return Im.Map.isMap(state);
     }
     this[_O]['_isList'] = () => {
-      return Im.List.isList(this[_O]);
+      return Im.List.isList(state);
     }
+    let autoGetMethodString;
     if(this[_O]._isMap()) {
-      this[_O].mapKeys((o) => {
-        const autoGetMethodString = 'get'+o.toString().charAt(0).toUpperCase()+o.slice(1);
-        this[autoGetMethodString] = () => this[_O].getIn([o]);
+      state.mapKeys((o) => {
+        autoGetMethodString = 'get'+o.toString().charAt(0).toUpperCase()+o.slice(1);
+        state[autoGetMethodString] = () => state.getIn([o]);
       })
     }
+    return state;
   }
 
   /*
@@ -142,12 +147,5 @@ export default class ImUtil {
 
   get isList() {
     return Im.List.isList(this[_O]);
-  }
-
-  /*
-   * get return self
-   */
-  get getSelf() {
-    return this[_O];
   }
 };
