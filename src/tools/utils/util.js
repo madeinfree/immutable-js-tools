@@ -62,12 +62,25 @@ export default class ImUtil {
   }
 
   removeList = (cursor, index) => {
-    const newState = this._getState.setIn(cursor, this._getState.getIn(cursor).remove(index));
+    let newState;
+    if(typeof cursor === 'number') {
+      const index = cursor;
+      newState = this._getState.remove(index);
+    }
+    if(typeof cursor === 'object' && cursor.length !== undefined) {
+      newState = this._getState.setIn(cursor, this._getState.getIn(cursor).remove(index));
+    }
     return this.changeImmutable(newState);
   }
 
-  clearList = (cursor) => {
-    const newState = this._getState.setIn(cursor, new Im.List());
+  setEmptyList = (cursor) => {
+    let newState;
+    if(cursor && typeof cursor === 'object') {
+      newState = this._getState.setIn(cursor, new Im.List());
+    }
+    if(typeof cursor === 'undefined') {
+      newState = new Im.List();
+    }
     return this.changeImmutable(newState);
   }
 
