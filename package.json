@@ -18,7 +18,11 @@
     "src"
   ],
   "keywords": [
-    "immutable"
+    "react",
+    "immutable",
+    "immutable-js",
+    "immutable-util",
+    "immutable-tools"
   ],
   "author": "Whien_Liou <www.facebook.com/haowei.liou> (http://github.com/madeinfree)",
   "license": "MIT",
