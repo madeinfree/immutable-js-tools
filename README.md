@@ -54,7 +54,7 @@ _O = _D.reverse(['selected', 1]); // Map { "items": List [ Map { "id": 1, "item"
  * auto bind Functions of Sugar
  * selected => getSelected();
  */
-console.log(_D.getSelected()); // List [ "foo", false ]
+console.log(_O.getSelected()); // List [ "foo", false ]
 ```
 
 ## Document
@@ -86,7 +86,7 @@ console.log(_D.getSelected()); // List [ "foo", false ]
 ### - basic validation: static method
   * isMap
   * isList
-  
+
 ### - auto bind Functions of Sugar method helper
 ```javascript
 const _D = new ImUtil(Im.fromJS(obj));
