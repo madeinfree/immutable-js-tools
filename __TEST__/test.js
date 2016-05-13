@@ -55,7 +55,7 @@ describe('Im', function() {
       this.ImMap = getMap.bind(this)();
       this[_O] = this.ImMap.addList(cursor, 'foo');
       this[_O] = this.ImMap.addList(cursor, 'bar');
-      expect(this.ImMap.getSelected().toJS()).toEqual(['foo', 'bar']);
+      expect(this[_O].getSelected().toJS()).toEqual(['foo', 'bar']);
     })
 
     /* list test */
