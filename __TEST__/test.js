@@ -63,48 +63,48 @@ describe('Im', function() {
       this[_O] = this.ImMap.addList(cursor, 'foo');
       this[_O] = this.ImMap.addList(cursor, 'bar');
       expect(this[_O].getSelected().toJS()).toEqual(['foo', 'bar']);
+      expect(this[_O].getItems().toJS()[0]).toEqual({ id: 1, item: 'bar' });
     })
 
     /* list test */
     it('create Im List', () => {
-      this.ImMap = getList.bind(this)();
-      expect(this.ImMap.isList).toEqual(true);
+      this.ImList = getList.bind(this)();
+      expect(this.ImList.isList).toEqual(true);
     })
 
     it('remove and clear Im List item', () => {
-      let cursor = ['selected'];
-      this.ImMap = getList.bind(this)();
-      this[_O] = this.ImMap.addList('foo');
-      this[_O] = this.ImMap.addList('bar');
-      this[_O] = this.ImMap.addList('foo-bar');
+      this.ImList = getList.bind(this)();
+      this[_O] = this.ImList.addList('foo');
+      this[_O] = this.ImList.addList('bar');
+      this[_O] = this.ImList.addList('foo-bar');
       expect(this[_O].size).toEqual(5);
-      this[_O] = this.ImMap.removeList(3);
+      this[_O] = this.ImList.removeList(3);
       expect(this[_O].size).toEqual(4);
-      this[_O] = this.ImMap.setEmptyList();
+      this[_O] = this.ImList.setEmptyList();
       expect(this[_O].size).toEqual(0);
     });
 
     /* other test */
     it('reverse boolean in array', () => {
       //create List
-      this.ImMap = getList.bind(this)();
-      expect(this.ImMap.isList).toEqual(true);
+      this.ImList = getList.bind(this)();
+      expect(this.ImList.isList).toEqual(true);
 
-      this[_O] = this.ImMap.addList(true);
-      expect(this.ImMap.getIn([2])).toEqual(true);
+      this[_O] = this.ImList.addList(true);
+      expect(this.ImList.getIn([2])).toEqual(true);
       [0, 1, 2, 3, 4, 5, 6].forEach((n) => {
         if(n % 2 === 0) {
-          this[_O] = this.ImMap.addList(true);
+          this[_O] = this.ImList.addList(true);
         } else {
-          this[_O] = this.ImMap.addList(false);
+          this[_O] = this.ImList.addList(false);
         }
       });
-      this[_O] = this.ImMap.reverse([1]);
-      this[_O] = this.ImMap.reverse([4]);
-      this[_O] = this.ImMap.reverse([6]);
-      expect(this.ImMap.getIn([1])).toEqual(false);
-      expect(this.ImMap.getIn([4])).toEqual(true);
-      expect(this.ImMap.getIn([6])).toEqual(true);
+      this[_O] = this.ImList.reverse([1]);
+      this[_O] = this.ImList.reverse([4]);
+      this[_O] = this.ImList.reverse([6]);
+      expect(this.ImList.getIn([1])).toEqual(false);
+      expect(this.ImList.getIn([4])).toEqual(true);
+      expect(this.ImList.getIn([6])).toEqual(true);
     })
 
     function getMap() {
