@@ -69,7 +69,8 @@ console.log(_O.getSelected()); // List [ "foo", false ]
 ### - Immutable.List
   * addList(cursor, value)
   * removeList(cursor, index)
-  * clearList(cursor)
+  * clearList(cursor - will rename to setEmptyList, version 1.0.0)
+  * setEmptyList() or setEmptyList(cursor)
 
 ### - Immutable.Set
   * clearSet(cursor)
