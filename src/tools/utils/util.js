@@ -73,6 +73,10 @@ export default class ImUtil {
     return this.changeImmutable(newState);
   }
 
+  clearList = (cursor) => {
+    return setEmptyList(cursor);
+  }
+
   setEmptyList = (cursor) => {
     let newState;
     if(cursor && typeof cursor === 'object') {
@@ -103,7 +107,7 @@ export default class ImUtil {
       newState = this._getState.setIn(!this._getState.getIn(cursor));
     }
 
-    if (this._getState._isList()) {
+    if (typeof cursor === 'object' && this._getState._isList()) {
       newState = this._getState.setIn(cursor, !this._getState.getIn(cursor));
     }
 
