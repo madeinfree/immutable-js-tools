@@ -50,6 +50,13 @@ describe('Im', function() {
       expect(this.ImMap.getIn(cursor).size).toEqual(0);
     })
 
+    it('clear items list', () => {
+      let cursor = ['items'];
+      this.ImMap = getMap.bind(this)();
+      this[_O] = this.ImMap.setEmptyList(cursor);
+      expect(this[_O].getIn(cursor).size).toEqual(0);
+    })
+
     it('add two values auto create the suger method', () => {
       let cursor = ['selected'];
       this.ImMap = getMap.bind(this)();
@@ -63,6 +70,19 @@ describe('Im', function() {
       this.ImMap = getList.bind(this)();
       expect(this.ImMap.isList).toEqual(true);
     })
+
+    it('remove and clear Im List item', () => {
+      let cursor = ['selected'];
+      this.ImMap = getList.bind(this)();
+      this[_O] = this.ImMap.addList('foo');
+      this[_O] = this.ImMap.addList('bar');
+      this[_O] = this.ImMap.addList('foo-bar');
+      expect(this[_O].size).toEqual(5);
+      this[_O] = this.ImMap.removeList(3);
+      expect(this[_O].size).toEqual(4);
+      this[_O] = this.ImMap.setEmptyList();
+      expect(this[_O].size).toEqual(0);
+    });
 
     /* other test */
     it('reverse boolean in array', () => {
